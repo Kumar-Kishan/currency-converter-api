@@ -12,6 +12,10 @@ export enum Countries {
 	'Europe' = 'EUR',
 }
 
+export const invalidCountry = (country: Countries) => {
+	return !Object.values(Countries).includes(country);
+};
+
 @Schema()
 export class Rate {
 	@Prop({ required: true, enum: Countries })

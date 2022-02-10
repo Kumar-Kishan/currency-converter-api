@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateRateDto } from './dto/create-rate.dto';
-import { Rate } from './schemas/rate.schema';
+import { Countries, invalidCountry, Rate } from './schemas/rate.schema';
 
 @Injectable()
 export class ConversionService {
@@ -29,11 +29,40 @@ export class ConversionService {
 		return await this.rateModel.deleteMany(query);
 	}
 
-	async findFor(from: string, to: string) {
+	async findFor(from: Countries, to: Countries) {
 		const query = {
 			from,
 			to,
 		};
-		return await this.rateModel.findOne(query).sort({ date: -1 });
+		if (invalidCountry(to)) {
+			return await this.rateModel.aggregate([
+				{
+					$match: {
+						from,
+					},
+				},
+				{
+					$sort: {
+						date: -1,
+					},
+				},
+				{
+					$group: {
+						_id: '$to',
+						from: { $first: '$from' },
+						to: { $first: '$to' },
+						rate: { $first: '$rate' },
+						date: { $first: '$date' },
+					},
+				},
+				{
+					$project: {
+						_id: 0,
+					},
+				},
+			]);
+		} else {
+			return await this.rateModel.findOne(query).sort({ date: -1 });
+		}
 	}
 }
