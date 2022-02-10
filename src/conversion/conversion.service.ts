@@ -25,6 +25,7 @@ export class ConversionService {
 		const query = {
 			date: { $lt: date },
 		};
+		this.logger.log(`deleting rates older than ${date}`);
 		return await this.rateModel.deleteMany(query);
 	}
 
