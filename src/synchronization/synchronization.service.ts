@@ -15,7 +15,7 @@ export class SynchronizationService {
 		private readonly conversionService: ConversionService,
 	) {}
 
-	@Cron('0 0 * * *')
+	@Cron('0 0 * * * *')
 	async deleteHistoricalData() {
 		try {
 			await this.conversionService.deleteOldData();
