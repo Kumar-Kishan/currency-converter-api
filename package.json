@@ -5,6 +5,10 @@
 	"author": "",
 	"private": true,
 	"license": "UNLICENSED",
+	"engines": {
+		"npm": ">=7.0.0",
+		"node": ">=16.0.0"
+	},
 	"scripts": {
 		"prebuild": "rimraf dist",
 		"build": "nest build",
@@ -19,7 +23,8 @@
 		"test:cov": "jest --coverage",
 		"test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
 		"test:e2e": "jest --config ./test/jest-e2e.json",
-		"postinstall": "npm run prestart:prod"
+		"postinstall": "npm run prestart:prod",
+		"prestart:prod": "npm run build"
 	},
 	"dependencies": {
 		"@nestjs/axios": "^0.0.5",
