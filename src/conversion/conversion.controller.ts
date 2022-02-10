@@ -1,4 +1,4 @@
-import { Controller, Get, Logger, Param, Query } from '@nestjs/common';
+import { Controller, Get, Logger, Query } from '@nestjs/common';
 import { ConversionService } from './conversion.service';
 import { Countries } from './schemas/rate.schema';
 
